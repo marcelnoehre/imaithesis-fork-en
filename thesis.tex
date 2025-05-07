@@ -1,5 +1,5 @@
 \documentclass[11pt,        % standard font size
-  english,ngerman,          % german primary, english secondary
+  ngerman,english,          % english primary, german secondary
   paper=a4,                 % standard paper size
   captions=tablesignature,  % captions below tables
   listof=numbered,          % including lists of... in the ToC
@@ -9,24 +9,16 @@
   footinclude=false,        % don't include page foot in page layout
   parskip=half-,            % space between paragraphs, no indentation
 %   dotlessnumbers,         % no dots after chapter etc. numbers
-% FIXME Adjust following 2 options for two-sided print, nr of pages
   oneside,                  % one-sided print
 %   twoside,                % two-sided print
-% FIXME Adjust the Binding CORrection to the binding and number of pages
-% 15mm should be fine for theses with about 60 to 120 double sided pages
-% and with the standard binding for theses (hardcover)
-% Add 2-3mm for longer theses, substract 2-3 mm for shorter theses
-% For more information see the documentation for KOMA-classes
-  BCOR=15mm,                 % BCOR for thesis (hardcover)
-%   BCOR=5mm,                 % BCOR for project reports (plastic folder)
-%                             % No BCOR for seminar reports (plastic folder)
+  BCOR=15mm,                % BCOR for thesis (hardcover)
+%   BCOR=5mm,               % BCOR for project reports (plastic folder)
+%                           % No BCOR for seminar reports (plastic folder)
 %   draft,                  % speed things up before final version
 %   DIV=calc                % calculate the page layout
-  DIV=12                    %  
+  DIV=12                    %
 %   DIV=classic             %
   ]{scrbook}                % KOMA script book class
-% TODO font size 11 or 10, div?
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright 2013-2025 by Jörg Cassens <cassens@cs.uni-hildesheim.de>
 %       and      2013 by Amelie Roenspieß (part of the example texts only)
@@ -59,1176 +51,190 @@
 % 
 % LICENSE INFORMATION ENDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% Adapt the file where you see fit - you don't have to follow
-% all idiosyncrasies of the default style, but are free to use
-% typographically sane variations.
-%
-% You should be able to use it as it is, parts where you
-% have to change things or decide on options are marked
-% with comments like this:
-% FIXME Example: change something here
-%
-% This template should only need packages available in a
-% standard TeXlive install. Input encoding is UTF 8, please
-% make sure your editor gets that right. We use pdfLaTeX
-% and produce PDF directly, we do not go via DVI.
-%
-% Happy TeXing:)
-%
-% Please direct comments, feedback, patches to:
-% 
-%            cassens@cs.uni-hildesheim.de (jc)
-% 
-% gitlab-project at:
-% 
-%   https://www.uni-hildesheim.de/gitlab/cassensj/mithesis
-% 
-%
-% ChangeLog
-% 2010-09-23  project started for imis at uni of lübeck (jc)
-% 2010-09-29  initial release (jc)
-% 2010-09-30  bugfix imis.bst (jc)
-% 2010-10-08  hacks for listings added (jc)
-% 2010-11-16  changed titlepage as in new word template (jc)
-% 2011-02-02  experimental workaround listings in german (jc)
-% 2011-06-17  changed way of referencing weblinks (jc)
-% 2011-07-29  removed broken package ltablex and use plain
-%             tabularx. Beware: tabularx does not support
-%             tables over several pages (thanks Niels for bug
-%             report & Bjoern for debugging) (jc)
-% 2011-12-22  changed Betreuer to Wissenschaftliche Begleitung
-%             added some color to the listings (jc)
-% 2012-03-08  major rework of content (mostly) and style to
-%             reflect newest, reworked version of Word template
-%             with a lot of new text to help you get going (jc)
-% 2012-03-09  reworked listings and captions massively
-%             now we rely on ccaptions.sty for a new 
-%             imislistings float environment (jc)
-% 2012-03-15  graphs and tables from data (jc)
-% 2012-04-02  new title page, small changes to glossaries (jc)
-% 2012-04-18  fixed small bug in Makefile resulting in a
-%             wrong zipfile for publication - devel only (jc)
-% 2012-11-09  hex color definitions to uppercase because some
-%             installs seem to bark else - thanks Marcin (jc)
-% 2012-12-07  Incorporated changes to support project reports
-%             as well as theses, use a boolean to switch (jc)
-% 2013-06-26  Initial import of project for use in Hildesheim (jc)
-% 2013-07-31  Many simplifications, since we do not have to mimic
-%             a given style we rely much more on the features of
-%             TeX and use less packages
-%             Content and form is adapted to what I think would
-%             be a good starting point for theses in Hildesheim (jc)
-% 2015-10-21  Small adjustments to formatting, preparing to 
-%             use uni-gitlab for future development, addded scrhack
-%             to make koma work better with listings.sty (jc)
-% 2015-12-05  Refactoring to support a seminar template (jc)
-% 2016-04-18  Changed font size to 12 to make it comparable to
-%             new Microsoft Word template. The same number of
-%             pages should have about the same number of characters.
-%             However, this change makes the LaTeX-version look
-%             less crisp. (jc)
-% 2016-04-28  Clarified Copyright status and conditions of use (jc)
-% 2017-03-28  Added example for citations with page numbers (jc)
-% 2017-03-29  Moved hypersetup from setup.tex to thesis.tex (jc) 
-% 2020-11-07  move from IMAI to IfI (jc)
-% 2021-05-01  changes to logos (jc)
-% 2023-05-16  added methods chapter, some info to generative AI (jc)
-% 2023-05-25  license clarification (jc)
-% 2025-04-17  amended information on generative AI, removed the 
-%             secondary web sources bibliography, fixed some warnings
-%             caused by using deprecated commands (jc)
-% 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% most setup is done in a file of its own since it is shared
-% by several document types
 \input{setup.tex}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% glossaries and indices
+% Glossaries and indices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% glossaries and list of abbreviations are only used in the
-% thesis template, not in project reporst or seminar works.
-% therefore, we will load the package and set it up here.
-% 
-% beware: the hyperref package should always be loaded as the
-% last one since it redefines a lot of commands. There are
-% a few exceptions to this rule, e.g. when using bibunits.sty
-% another exception is this one for building glossaries:
-\usepackage[toc,% % entry in table of contents
-  acronym,%       % we want a list of acronyms
-  nonumberlist]%  % we don't need backlinks
+\usepackage[toc,
+  acronym,
+  nonumberlist]
   {glossaries}
 
-% these files are used for defining abbreviations and glosses
-% FIXME you have to run makeglossaries for creating glossaries
-% makeglossaries is a perl script included with glossaries.sty
-% perl should be installed on most Linux and Mac systems
-% on Windows, you will most likely have to install a perl
-% runtime environment like strawberry perl
-% you have to run latex, then makeglossaries from the command
-% line, and then latex again to update the glossaries
-% read the documentation for further info
 \input{glos.tex}
 \input{abk.tex}
 
-% we define two styles, for abbreviations and glossaries
-% we make use of enumitem.sty, you might have to change
-% the margins to fit your needs
-
 \newglossarystyle{imai}{%
-  \setglossarystyle{list}%  % <-- Changed from \glossarystyle to \setglossarystyle
-  \renewcommand{\glsgroupskip}{}% make nothing happen between groups
+  \setglossarystyle{list}%
+  \renewcommand{\glsgroupskip}{}%
   \renewenvironment{theglossary}%
     {\begin{description}[font=\rmfamily\bfseries,leftmargin=4cm,style=multiline]}%
     {\end{description}}%
 }
 
 \newglossarystyle{imaiabk}{%
-  \setglossarystyle{list}%  % <-- Changed from \glossarystyle to \setglossarystyle
-  \renewcommand{\glsgroupskip}{}% make nothing happen between groups
+  \setglossarystyle{list}%
+  \renewcommand{\glsgroupskip}{}%
   \renewenvironment{theglossary}%
     {\begin{description}[font=\rmfamily\bfseries,leftmargin=2cm,style=multiline]}%
     {\end{description}}%
 }
-% do we want to include a glossary and an index?
 
 \makeglossaries
-% \makeindex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% let the fun begin
+% Title Page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% stuff before real content, no chapter marks, roman page numbers
 \frontmatter
 
-% % the cite commands will generate entries in the index, if used
-% \citeindextrue
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% We don't use a custom \maketitle for now
-% so we have to make our own title page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{titlepage}
-% FIXME Title, author and subject for PDF metadata
   \hypersetup{%
-    pdftitle={media informatics thesis template},
-    pdfauthor={Jörg Cassens},
-    pdfsubject={Template, examples and explanations for media informatics theses.}
+    pdftitle={IMAI Thesis Template},
+    pdfauthor={Marcel Nöhre},
+    pdfsubject={English Fork}
   }%
   \begin{center}
     \includegraphics[width=2.5cm]{figures/logo.pdf}\\
-%     \includegraphics[width=5cm]{figures/unihi-ifi-logo-en.pdf}\\
-%     \includegraphics[width=5cm]{figures/unihi-ifi-logo-de.pdf}\\
-
     \vfill
-
     {
       \Large
       \bfseries
-%     FIXME your real title in German
-      Titel der Arbeit\\    
-      Titel Zeile 2
-      
+      First Line of the Title\\    
+      Second Line of the Title
       \vspace{0.25cm}
       \normalsize
       \mdseries
-%     FIXME your real title in English
-      \selectlanguage{english} % switching to english
-        Title of the Thesis in English\\
-        Second Line English Title
-      \selectlanguage{ngerman}
     }
-
     \vfill
-
     {
       \normalsize
+      Thesis
+      
+      In partial fulfillment\\
+      of the requirements for the Master's degree
 
-%     FIXME your type of thesis
-      Bachelorarbeit/Masterarbeit
-
-%     FIXME Chose your study program:
-      im Rahmen des Studiengangs\\
-      Angewandte Informatik\\
-%     Wirtschaftsinformatik\\
-      der Universität Hildesheim
+      in \textit{Angewandte Informatik}\\
+      at the \textit{Universität Hildesheim}
 
       \vfill
 
-%     FIXME your real name - do not add the student number
-      Vorgelegt von\\
-      Vor- und Zuname des/der Studierenden
+      Submitted by\\
+      Marcel Nöhre
 
       \vfill
 
-      Erstprüfer\\
-      Dr. Jörg Cassens
-  
-%     FIXME evtl. anderer Zweitprüfer
-      Zweitprüfer\\
+      First Examiner\\
+      NN
+
+      Second Examiner\\
       NN
 
       \vfill
-      
-%     FIXME real date of delivery
+
       Hildesheim, \today
     }
-      
+
       \vfill
-      
+
     {
       \footnotesize 
 
-%     FIXME remove if not external
-      Die Arbeit ist im Rahmen einer Tätigkeit bei der Firma Muster GmbH entstanden.
-
       \vfill
 
-      Fachbereich IV -- Mathematik, Naturwissenschaften, Wirtschaft und Informatik\\      
-      Institut für Informatik
+      Faculty 4: Mathematics, Natural Sciences, Economics and Computer Science
     }
   \end{center}
 \end{titlepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter*{Kurzfassung}
-% \thispagestyle{empty}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\imaicomment{
-  Eine kurze Beschreibung der Arbeit
-
-  Generelle Hinweise:
-
-  \begin{itemize}
-    \item Die grauen, kursiven Kommentare sind Hinweise zum Inhalt,
-      der schwarze Text ist beispielhafter Inhalt.
-    \item Dieses Dokument ist für einseitigen Druck formatiert; wenn
-      zweiseitig gedruckt werden soll, muß das Seitenformat (Kopf, 
-      Seitenzahlen) entsprechend angepaßt werden.
-    \item Auf Abbildungen/Tabellen möglichst im Text vor der
-      Abbildung verweisen.
-    \item Abbildungen sollten nach Möglichkeit so groß dargestellt
-      sein, dass auch die Texte gut lesbar sind (in der Regel mindestens
-      in der Schriftgröße von Fußnoten); es sei denn die Texte sind
-      völlig bedeutungslos und nur die Struktur oder das Gesamtbild
-      sind von Bedeutung.
-    \item Falls farbige Abbildungen verwendet werden sollte sichergestellt werden, daß
-      diese auch in Schwarz-Weiß gut erkennbar sind.
-    \item Tabellen sollten zweckmäßig und übersichtlich sein: Vermeidung
-      unnötiger Linien, Farbgebung nur, wenn sie eine Bedeutung hat oder
-      der Übersichtlichkeit dient.
-    \item Falls generative KI-Systeme benutzt werden sind die Anmerkungen
-      zur Formatierung in Kapitel \ref{chapter:introduction} zu beachten.
-  \end{itemize}
-  
-  Ein Teil der Beispieltexte und Erläuterungen wurde von Amelie
-  Roenspieß erstellt.
-  }
-
-Mit diesem Dokument wird eine Gestaltungsempfehlung für das Erstellen von
-Abschlußarbeiten in der Medieninformatik am Institut für Informatik der 
-Universität Hildesheim vorgelegt.
-
-\vfill
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Schlüsselwörter} Medieninformatik, Interaktive Medien
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\selectlanguage{english} % switching to english
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter*{Abstract}
-% \thispagestyle{empty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  A short description of the thesis in English.
-
-  General instructions:
-
-  \begin{itemize}
-    \item The grey, italic comments are instructions; the black
-      text is exemplary content.
-    \item This document is formatted for single sided printing;
-      if you want to print double sided please remember to adjust
-      the page numbers and headers correspondingly.
-    \item Try to refer to figures and tables in the preceding text.
-    \item Make sure coloured figures are still informative in black
-      and white.
-    \item Make sure text within figures is readable (usually at least
-      in the size of footnotes) unless it is irrelevant and the figure
-        is only supposed to show a structure or give a general impression.
-    \item Tables ought to be functional: Avoid unnecessary lines and
-      colour, unless they convey additional information or help structure
-      the table.
-    \item Obey the citation guidelines for scientific work.
-    \item If generativ AI-systems are being used you will have to follow
-      the formatting guideline in Chapter \ref{chapter:introduction}.
-  \end{itemize}
-  
-  The exemplary text and guidelines are partially written by Amelie Roenspieß.
-  }
-  
-  This document serves as a design guideline for writing theses in Media
-  Informatics at the Institute of Computer Science, University of Hildesheim.
-
-
 \vfill
 
+\section*{Keywords} First, Second, Third
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Keywords} Media Informatics, Interactive Media
+% Table of Contents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\selectlanguage{ngerman} % and back to german
-
-% if using tocloft.sty, we need an explicit clearpage
 \clearpage
-% we want chapters and sections in the toc, then generate it
 \setcounter{tocdepth}{1}
 \tableofcontents
 
-% now we have real content, with section marks and egyptian numerals
 \mainmatter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}\label{chapter:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Einleitung}\label{chapter:introduction}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Einführung und Motivation des Themas
-
-  Kurze Einleitung zu den Unterkapiteln
-  }
-
-Das Erstellen einer Abschlußarbeit ist eine Voraussetzung für das Erlangen eines Hochschulabschlusses. Da es hierfür sehr viele verschiedene  Gestaltungsvorschriften gibt, kann es für Studierende schwierig sein, die  für ihren Fachbereich geeigneten Vorlagen zu finden. Es bietet sich daher  an, ein System zu entwickeln, welches Studierende bei der Auswahl eines  gestalterischen Rahmens für ihre Arbeit unterstützt.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Generative KI}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Richtlinien für den Einsatz generativer KI
-  
-  Dieses Unterkapitel wird in der Regel nicht Teil der Arbeit sein
-  }
-  
-Im Rahmen der Lehre in der Medieninformatik ist die Nutzung generativer KI-Systeme \textit{ausdrücklich erlaubt}, sofern sie verantwortungsvoll eingesetzt und transparent dokumentiert wird. Diese Richtlinien sollen Ihnen helfen, generative KI als Werkzeug im wissenschaftlichen Arbeitsprozess sinnvoll einzusetzen und gleichzeitig akademische Integrität zu wahren. Die Grundprinzipien dabei sind:
-    
-\begin{itemize}
-  \item Sie tragen die volle \textit{wissenschaftliche Verantwortung} für alle in Ihren Ausarbeitungen und Präsentationen enthaltenen Inhalte, auch wenn sie mit Unterstützung von KI-Systemen erstellt wurden.
-  \item Generative KI kann Fakten erfinden (halluzinieren), Verzerrungen (Bias) verstärken und sachlich falsch sein. \textit{Überprüfen Sie daher alle durch KI generierten Inhalte kritisch}.    
-  \item KI-Tools sind \textit{keine zitierfähigen Quellen}. Wenn Sie mit KI recherchieren, müssen Sie stets die ursprünglichen wissenschaftlichen Quellen identifizieren, selber aufbereiten und korrekt zitieren.
-  \item Die KI-Nutzung sollte als \textit{Unterstützung des eigenen Denkprozesses} verstanden werden, nicht als Ersatz.
-\end{itemize}
-
-Genutzte generative KI-Systeme \textbf{müssen} am Ende einer jeden schriftlichen Arbeit aufgelistet werden. Mindestens die verwendeten Systeme und ihre Version sind darzulegen. Diese Auflistung kann im besonderen durch die eine tabellarische Dokumentation geschehen, wie im Beispiel auf Seite \pageref{sec:ai_use} gezeigt.
-
- 
-Darüber hinaus \textbf{können} Sie eine farbliche Kennzeichnung im Text benutzen:
-  
-\migenaimod{%
-    Diese Farbe kennzeichnet Textabschnitte, bei denen Ausgaben einer generativen KI (wie zum Beispiel GPT) verwendet und erheblich verändert und zu eigenen gemacht wurden. Dies umfasst kritische Textanalyse, Hinzufügen eigener Gedanken, Paraphrasierung und substanzielle Überarbeitung. Diese Kennzeichnung gilt auch, wenn eine generative KI einen selbst formulierten Text maßgeblich überarbeitet hat.%
-  }
-
-\migenaiverb{%
-    Diese Farbe kennzeichnet Textabschnitte, in denen Ausgaben einer generativen KI übernommen und nicht substantiell überarbeitet wurden.%
-  }
-  
-\textit{Nicht gekennzeichnet} wird die Verwendung von KI-Tools für das Copy-Editing. Unter Copy-Editing verstehen wir KI-unterstützte Verbesserungen an menschlich erstellten Texten für Lesbarkeit und Stil sowie zur Korrektur von Fehlern in Grammatik, Rechtschreibung, Zeichensetzung und Tonfall. Diese KI-unterstützten Verbesserungen können Formulierungs- und Formatierungsänderungen umfassen, beinhalten jedoch keine eigenständige redaktionelle Arbeit oder autonome Inhaltserstellung.
-
-Ebenso muss die Verwendung von Übersetzungsdiensten nicht offengelegt werden.
-  
-\textit{Wichtig:} Bei allen KI-unterstützten Arbeiten bleibt die menschliche Verantwortung für den finalen Text bestehen. Die Studierenden müssen sicherstellen, dass die Inhalte korrekt sind und ihre ursprüngliche Arbeit angemessen widerspiegeln.
-    
-\textit{Die KI-Nutzung selbst wird nicht bewertet}, sondern nur die Qualität der wissenschaftlichen Arbeit und die transparente Dokumentation der Nutzung. Die fehlende Offenlegung der KI-Nutzung kann jedoch als Täuschungsversuch gewertet werden.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ziele der Arbeit}\label{sec:goals}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Beschreibung und Begründung der Ziele und die Relevanz des Themas}
-
-In dieser Arbeit wird ein interaktives System zur Bereitstellung von Dokumentvorlagen für Abschlußarbeiten konzipiert und realisiert.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Stand der Technik}\label{sec:state_of_art}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Literatur-Recherche und Erwähnung anderer wichtiger Arbeiten zum Thema
-  
-  Darstellung des ``State of the Art'', kurze Vorstellung ähnlicher bereits bestehender Systeme; bei ausführlichen Beschreibungen für den ``State of the Art'' kann statt eines Unterkapitels auch ein eigenes Kapitel mit dem Titel ``Verwandte Arbeiten'' oder ``Stand der Technik'' sinnvoll sein
-
-  Zitiert werden soll in der Arbeit wie anhand der Beispieltexte gezeigt.
-  }
-
-Verschiedene \LaTeX-Dokumentvorlagen für das Verfassen von Abschlußarbeiten werden
-beispielsweise im Katalog des \gls{ctan}
-bereitgestellt\footnote{\href{https://www.ctan.org/}{www.ctan.org}}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Methodik}\label{sec:approach}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Überblick zur Vorgehensweise bei der Bearbeitung des Themas
-
-  Gegebenenfalls grafische Darstellung des Vorgehens
-
-  Kurze Erläuterung, was in den einzelnen Kapiteln beschrieben wird
-  }
-  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Literatur}\label{sec:lit_method}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Die Literaturrecherche wurde in Form einer Scroping Review (Literaturübersicht) gestaltet. Eine Scoping Review dient dem Zweck, die vorhandene Literatur zu einer bestimmten Forschungsfrage zu identifizieren. Er kann auch Konzepte in der Literatur klären und Wissenslücken definieren. Im Gegensatz zu systematischen Übersichtsartikeln haben Literaturübersichten nicht das Ziel, ein kritisch bewertetes und synthetisiertes Ergebnis auf eine bestimmte Frage zu liefern, sondern sie sollen vielmehr einen Überblick oder eine Landkarte des vorhandenen Evidenzmaterials liefern \citep{Munn_ea-2018-scoping_reivews}.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Entwicklungsprozess}\label{sec:hcd_method}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Der QA-Wizard wird in einem Prozess entwickelt, der auf \gls{ucd} nach \cite{norman_draper-1986-ucd} und \gls{fdd} nach \cite{Coad.ea-1999-java_modeling_uml} aufbaut. Diese werden wie in Abbildung \ref{fig:fdducd} kombiniert.
-
-
-\begin{figure}[htbp]
-\setlength{\unitlength}{1cm}
-\begin{center}
-\begin{tikzpicture}[auto,node distance=3.3cm,thin]
-  % Drawing copyright 2009 by Amelie Roenspieß. All rights reserved.
-  \tikzstyle{every node}=[rounded corners,draw=tango_orange_dark,shape=rectangle,minimum height=1cm,text=black,fill=tango_orange_light]
-
-  \node (X)
-    {\parbox[top][1.3cm][c]{2.3cm}{\centering\footnotesize\sffamily Benutzer-studie / Interviews}};
-
-  \node (A) [right of=X,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox[top][1.3cm][c]{2.3cm}{\centering\footnotesize\sffamily Entwicklung des Gesamtmodells}};
-  \node (B) [right of=A,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox[top][1.3cm][c]{2.3cm}{\centering\footnotesize\sffamily Erstellung der Feature-Liste}};
-  \node (C) [right of=B,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox[top][1.3cm][c]{2.3cm}{\centering\footnotesize\sffamily Planung und Priorisierung der Features}};
-    
-  \node (D) [below of=X, node distance=2.5cm,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Entwurf Feature 1}};
-  \node (E) [below of=D, node distance=1.5cm,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Konstruktion Feature 1}};
-  \node (F) [below of=E, node distance=1.5cm]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Usability Test / Befragung}};
-
-  \node (J) [below of=C, node distance=2.5cm,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Entwurf Feature n}};
-  \node (K) [below of=J, node distance=1.5cm,draw=tango_skyblue_dark,fill=tango_skyblue_light]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Konstruktion Feature n}};
-  \node (L) [below of=K, node distance=1.5cm]
-    {\parbox{1.8cm}{\centering\scriptsize\sffamily Usability Test / Befragung}};
-
-%   \node (Y) [below of=L, node distance=2.5cm]
-%     {\parbox[top][1.5cm][c]{2.3cm}{\centering\footnotesize\sffamily Finale Evaluation / Interviews}};
-
-  \node (Y) [below of=L, node distance=2.5cm]
-    {\parbox[top][1.3cm][c]{2.3cm}{\centering\footnotesize\sffamily Finale Evaluation / Interviews}};
-
-  \path (X) edge [->, thick] (A)
-        (A) edge [->, thick] (B)
-        (B) edge [->, thick] (C)
-
-        (C) edge [->, out=south west, in=north east, thick] (D)
-        
-        (D) edge [->, thick] (E)
-        (E) edge [->, thick] (F)
-        
-        (F) edge [->, out=south west, in=north west, thick]     (D)
-        (F) edge [->, out=east, in=west, loosely dashed, thick] (J)
-       
-        (J) edge [->, thick] (K)
-        (K) edge [->, thick] (L)
-        
-        (L) edge [->, out=south east, in=north east, thick]    (J)    
-        (L) edge [->, out=south west, in=north west , thick] (Y);
-
-\end{tikzpicture}
-\end{center}
-\caption[Kombination von FDD und UCD, nach \protect\cite{roenspiess-2009-teaco}.]%
-  {Kombination von \protect\gls{fdd} (Blau) und \protect\gls{ucd} (Orange), nach \protect\cite{roenspiess-2009-teaco}.}
-\label{fig:fdducd}
-\end{figure}
-
-% abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-
-In Kapitel \ref{chapter:analysis} werden Analysen der Benutzer, ihrer Aufgaben sowie des Nutzungskontextes vorgenommen. Kapitel \ref{chapter:concept} beschreibt die Konzeption des Systems von technischer (Systemarchitektur) und gestalterischer Seite (Interface Design). Im \ref{chapter:implementation}. Kapitel wird die Realisierung zusammen mit der eingesetzten Technik vorgestellt. Einige ausgewählte Dialogbeispiele des entwickelten Systems werden in Kapitel \ref{chapter:dialogs} visualisiert. Kapitel \ref{chapter:eval} umfaßt die Evaluation des Systems. Im letzten Kapitel werden eine Zusammenfassung der Arbeit sowie ein Ausblick auf mögliche Weiterentwicklungen gegeben.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Analyse}\label{chapter:analysis}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Analyse der Problemstellung, der Zielgruppen sowie des Anwendungskontextes
-
-  Die erforderlichen Kapitel können sich je nach Thema der Arbeit unterscheiden, in Absprache mit dem Betreuenden können dementsprechend Kapitel entfernt oder ergänzt werden
-
-  Kurze Einleitung zu den ausgewählten Analysen
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem- oder Aufgabenanalyse}\label{sec:problem_ana}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Problemanalyse oder Aufgabenanalyse (Aufgaben der Benutzer, die sie zukünftig mit dem System bearbeiten können sollten)
-
-  Die Aufgabenanalyse soll übersichtlich, vielleicht als Ablaufmodell aus dem Contextual Design, als Hierarchische Aufgabenanalyse (Hierarchical Task Analyis, HTA) oder in der Form von Aufgabenlisten dargestellt werden
-
-  Zusätzlich zur Beschreibung im Fließtext sollten Aufgaben und Aufgabenabläufe möglichst auch visualisiert werden
-
-  Ein Flußmodell aus dem Contextual Design kann im Einzelfall hier ebenfalls sinnvoll sein, besonders, falls keine eigene Organisationsanalyse betrieben wird
-  }
-
-\begin{table}[ht]
-  % We want some more white space in this table
-  % First the column separation
-  \renewcommand{\tabcolsep}{3mm}
-  % Then the columns
-  \renewcommand{\arraystretch}{1.5}
-  \begin{center}
-    \begin{tabular}{llll}
-                              & \textbf{Vorteile}  & \textbf{Nachteile} & \textbf{Anmerkungen}\\
-      \hline
-      \textbf{Microsoft Word} & leicht erlernbar   & kostenpflichtig    & \\
-      \textbf{\LaTeX}         & Schönes Satzbild   & lernintensiv       & erweiterbar \\
-      \textbf{Libreoffice}    & leicht erlernbar   &                    & frei verfügbar \\
-    \end{tabular}
-    \caption{Vergleich von Textsystemen zur Erstellung von Abschlußarbeiten.}
-    \label{table:typesetting}
-  \end{center}
-\end{table}%
-
-Bei der Erstellung von Abschlußarbeiten ist es für Studierende nicht immer deutlich ersichtlich
-an welchen Vorgaben sie sich orientieren müssen. Wie bereits von \citet[Seite 19]{bringhurst-2005-elements_typographic_style} erwähnt ist auch die Typographie ein schwieriger Aspekt \citep{willberg-2008-wegweiser_schrift}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Benutzeranalyse}\label{sec:user_ana}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung der Zielgruppen des Systems, z.B. durch Benutzerklassen und/oder Personas
-
-  Auf diese sollte in der Konzeption und ggf.\ auch in der Evaluation wieder Bezug genommen werden.
-
-  Kurze Einleitung zu den Unterkapiteln/Benutzerklassen
-  
-  Wenn Personas verwendet werden bietet es sich häufig an, zumindest die primäre, eine sekundäre und eine negative Persona zu definieren
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Studierende}\label{subsec:user_ana_students}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung der Benutzerklasse mit ihren charakteristischen Eigenschaften, Fähigkeiten etc.
-
-  Personas als konkrete, aber fiktive Beispiele
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Betreuende}\label{subsec:user_ana_supervisors}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung der Benutzerklasse mit ihren charakteristischen Eigenschaften, Fähigkeiten etc.
-
-  Personas als konkrete, aber fiktive Beispiele
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Kontextanalyse}\label{sec:context_ana}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung des räumlich-zeitlichen Umfeldes für den Einsatz des Systems
-  
-  Die Kontextanalyse soll substantiell und relevant sein (räumliche, zeitliche, technische Kontexte)
-  
-  Physische Modelle aus dem Contextual Design können hilfreich sein
-    
-  Auch das Artefaktmodell kann hier einfließen, wenn keine eigenständige Artefaktanalyse beschrieben wird
-  }
-
-Da Abschlußarbeiten tendenziell an einem dafür entsprechend eingerichteten Arbeitsplatz verfaßt werden, ist davon auszugehen, daß für die Benutzung des QA-Wizards im Vergleich zu den Systemen, mit denen diese Arbeiten geschrieben werden, keine besonderen Störfaktoren berücksichtigt werden müssen. Eine mobile Nutzung auf Notebooks wäre allerdings denkbar, daher sollte das System u.a. vernünftige Kontrast- und Farbgebung bieten und nicht auf das Kurzzeitgedächtnis des Benutzers angewiesen sein.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Organisationsanalyse}\label{sec:orga_ana}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung des organisatorischen Umfeldes für den Einsatz des Systems, also z.B. den betrieblichen Kontext bei einem System im Arbeitseinsatz
-  
-  Hilfreiche Modelle des Contextual Designs sind z.B.\ das Fluß- und das Einflußmodell
-  }
-
-Der QA-Wizard ist für den Einsatz im Lehr-/Lernbereich vorgesehen.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Systemanalyse}\label{sec:sys_ana}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Falls die Aufgabe auf einem existierendem System aufbaut können in diesem Unterkapitel solche Probleme beschrieben werden, die nicht mit den vorhergehenden Analysen abgedeckt werden
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problemszenario}\label{sec:problem_sce}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  In diesem abschließenden Unterkapitel können die Ergebnisse der Analyse mit einem Problemszenario illustriert werden
-  
-  Ein solches Szenario zeigt auf, wie die zu unterstützende Tätigkeit ohne Hilf des neu zu realisierenden Systems ausgeführt werden
-  }
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Konzeption}\label{chapter:concept}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Bezugnahme auf die Analyse
- 
-  Die Struktur dieses Kapitels kann je nach Aufgabenstellung unterschiedlich gestaltet werden.
-
-  Kurze Einleitung zu den Unterkapiteln
-  }
-
-Im Folgenden werden die Features des zu realisierenden Systems vorgestellt. Darauf aufbauend werden die Systemarchitektur und das Interface Design des QA-Wizards entworfen. Wie schon in Vorarbeiten zur Konzeption interaktiver Systeme dargestellt wurde \citep{herczeg-2009-software_ergonomie}, sind hierbei besondere Kriterien zu beachten. Abschließend wird der geplante Funktionsumfang des Systems zusammengefasst.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Funktionalität und Features}\label{sec:concept_features}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  strukturierte Beschreibung des Funktionsumfangs bzw.\ der Funktionsweise
-  
-  Diese können z.B. durch die User Environment Diagrams des Contextual Designs ausgedrückt werden
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Systemarchitektur}\label{sec:concept_architecture}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Struktur des Gesamtsystems, UML-Diagramme, Schnittstellen, Datenmodelle}
-
-% pdfLaTeX can use pdf, png, jpeg, etc:
-\begin{figure}[htb]
-  \begin{center}
-    \includegraphics[width=.5\textwidth]{figures/mvc}
-  \end{center}
-  \caption{Systemarchitektur.}
-  \label{fig:mvc}
-\end{figure}
-
-QA-Wizard ist ein webbasiertes System. Zur Umsetzung der Kommunikation zwischen den Benutzern und der Applikation wird das Client-Server-Modell verwendet. Als Entwurfsmuster findet intern \gls{mvc} Verwendung. Es ergibt sich die in Abbildung \ref{fig:mvc} dargestellte Systemarchitektur.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interface Design}\label{sec:concept_interface}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Skizzen und Mockups, Beschreibung der Interaktion
-  
-  Hier können auch Wireframes oder ähnliche Prototypen benutzt werden
-  }
-
-Für den QA-Wizard sind zunächst zwei Ansichten vorgesehen: Eine für die Unterstützung der Benutzer bei der Suche nach einer passenden Dokumentvorlage und eine für die Erstellung neuer Dokumentvorlagen. Für die Suche sollen dem Benutzer verschiedene Kriterien zur Filterung der vorhandenen Vorlagen angeboten werden, insbesondere die folgenden:
-
-\begin{itemize}
-  \item Typ der Abschlußarbeit (Bachelor, Master, Diplom, \ldots)
-  \item Fachbereich (juristisch, technisch, geisteswissenschaftlich, \ldots)
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Konzeptszenario}\label{sec:design_sce}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  In diesem abschließenden Unterkapitel können die Ergebnisse des Entwurfs mit einem weiteren Szenario illustriert werden
-  
-  Ein solches Szenario zeigt auf, wie die zu unterstützende Tätigkeit mit Hilf des neu zu realisierenden Systems ausgeführt werden kann
-  
-  Dieses Szenario hilft später auch dabei, die Evaluation zu planen
-  }
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Realisierung}\label{chapter:implementation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Beschreibung der Realisierung (Hardware/Software)
-  
-  Struktur dieses Kapitel kann je nach Aufgabenstellung unterschiedlich gestaltet werden
-
-  Informatische Konzepte nach Möglichkeit mit UML-Diagrammen dokumentieren
-  }
-
-\begin{lstlisting}[%
-  caption={SPARQL-Abfrage nach Personen.},
-  label={lst:person }]
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-SELECT ?name ?email
-WHERE {
-  ?person a foaf:Person.
-  ?person foaf:name ?name.
-  ?person foaf:mbox ?email.
-}
-\end{lstlisting}%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Dialogbeispiele}\label{chapter:dialogs}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Darstellung des Systems anhand von beispielhaften Dialogabläufen (Walkthroughs) mit
-  Abbildungen und Erläuterungen
-  
-  Die Dialogbeispiele sollten auch als Einführung in die Benutzung des Systems dienen können
-
-  Kurze Einleitung zu den ausgewählten Dialogbeispielen
-
-  Hier kann auch wieder auf Szenarien Bezug genommen werden, falls diese in vorausgehenden
-  Kapiteln eingesetzt worden sind
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Auswahl einer geeigneten Vorlage}\label{sec:dialog_choice}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anlegen einer Dokumentvorlage}\label{sec:dialog_new}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Evaluation}\label{chapter:eval}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Kurze Einleitung zum Thema Evaluation und zu den Unterkapiteln
-  
-  Die Ergebnisse werden übersichtlich präsentiert, am besten graphisch dargestellt und textuell diskutiert    
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ziel}\label{sec:eva_goal}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Welche Fragen soll die Evaluation beantworten?
-  
-  Formative und summative Evaluationen
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Vorgehen und Methoden}\label{sec:eva_approach}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Evaluationen können auf unterschiedliche Art und Weise erfolgen
-  
-  Der Einsatz empirischer und/oder analytischer Evaluationsmethoden kann sinnvoll sein
-  
-  Die am besten geeignete Methode ist abhängig vom zu untersuchenden System
-  
-  Für ein interaktives System bieten sich  Benutzertest oder -befragungen an, aber auch eine Expertenevaluation o.ä. kann sinnvoll sein
-  
-  Klare Aussagen über die Probanden sowie über Evaluationsmethode
-
-  Insbesondere bei der Realisierung von Backend-Systemen oder KI-Komponenten bietet sich eine Per\-for\-manz-Evaluation an, oder eine, bei der begründet wird, inwiefern das realisierte System eine Lösung des analysierten Problems darstellt
-  
-  Beschreibung und Begründung des gewählten Vorgehens:
-
-  \begin{itemize}
-    \item Beschreibung der eingesetzten Methoden/Instrumente (Quellenangabe bei publizierten Fragebögen)
-    \item Beschreibung der Untersuchungssituation/des Versuchsablaufs
-    \item Beschreibung der Stichprobe und ihrer Gewinnung
-  \end{itemize}
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Evaluationsszenario}\label{sec:eval_sce}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Falls ein Benutzertest durchgeführt wird kann mit diesem Szenario beschrieben werden, welche Aufgabe die Probanden durchzuführen hatten
-  }
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ergebnisse}\label{sec:eva_results}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Welche Ergebnisse brachte die Evaluierung und was ist davon zu halten\ldots
-
-  Hier helfen Tabellen (Achsen erläutern) und Grafiken bei der Vermittlung von Sachverhalten
-
-  Bericht von Mittelwerten (M) immer in Verbindung mit der Standardabweichung (SD; Streuung)
-  
-  Bericht der Stichprobengröße (N) bei allen Kennwerten, auch bei Tabellen und Abbildungen;
-  
-  Die Entscheidung, ob beispielsweise zwei Mittelwerte voneinander verschieden sind, wird nicht
-  nach subjektivem Empfinden, sondern auf Basis eines Signifikanztests (z. B. t-Test für
-  unabhängige Stichproben) gefällt
-  
-  Die verwendeten statistischen Verfahren sind zu benennen (z.B.\ t-Test für unabhängige 
-  Stichproben) und die jeweiligen Kennwerte anzugeben
-  }
-
-% this defines some evaluation results in a table
-% we use it to generate a table and a graph
-% by this, we only have to change data in one place
-\pgfplotstableread{
-  F   M-A   SD-A  M-B   SD-B
-  AA  5.27  0.69  3.83  0.48 
-  SB  3.92  0.96  6.33  0.35 
-  EK  5.88  1.10  6.10  0.56 
-  LF  4.54  1.76  4.24  1.13 
-  SK  5.75  0.92  6.90  0.67 
-  FT  4.56  0.93  3.00  0.98 
-  IK  4.61  0.72  5.86  0.82 
-}\empiricaldata
-
-% % % pdfLaTeX can use pdf, png, jpeg, etc... or tikz:
-\begin{figure}[htb]
-  \begin{center}  
-% % % you can import the graph from a graphics file...
-% %     \includegraphics[width=.8\textwidth]{figures/evaluation-graph}
-% % ... but we generate the graph from the data entered  
-    \begin{tikzpicture}
-      \begin{axis}[ybar,
-          ymax=8,
-          enlargelimits=0.1,
-          ylabel={Mittelwert},
-          symbolic x coords={AA,SB,EK,LF,SK,FT,IK},
-          width=.6\textwidth,
-          ymajorgrids=true,
-          legend pos=outer north east]
-        \addplot+[draw=tango_skyblue_dark,
-            fill=tango_skyblue_light,
-            error bars/.cd,
-            y dir=both,
-            y explicit,
-            error bar style={color=black}]
-          table[x=F,
-            y=M-A,
-            y error=SD-A]
-          {\empiricaldata};
-        \addplot+[draw=tango_orange_dark,
-            fill=tango_orange_light,
-            error bars/.cd,
-            y dir=both,
-            y explicit,
-            error bar style={color=black},]
-          table[x=F,
-            y=M-B,
-            y error=SD-B]
-          {\empiricaldata};
-        \legend{~Gruppe A,~Gruppe B}
-      \end{axis}
-    \end{tikzpicture}
-  \end{center}
-  \caption{Mittelwerte und Standardabweichungen der Faktoren ermittelt mit Hilfe eines Fragebogens ISONORM 9241/110-S \protect\citep{prumper-2012-isonorm-fragebogen} für Gruppen A und B (N=20).}
-  \label{fig:eval}
-\end{figure}
-
-Bei Gruppe A (M=5.27) ist die ermittelte Aufgabenangemessenheit signifikant größer als bei
-Gruppe B (M=3.83), t(18)=2.36, p<.05.
-
-% We also generate the table from the data entered
-\begin{table}[ht]
-  % We want some more white space in this table
-  % First the column separation
-  \renewcommand{\tabcolsep}{5mm}
-  % Then the columns
-  \renewcommand{\arraystretch}{1.5}
-  \begin{center}
-
-    \pgfplotstabletypeset[zerofill,
-      every head row/.style={
-        before row={%
-          & \multicolumn{2}{c}{\textbf{Gruppe A}} & \multicolumn{2}{c}{\textbf{Gruppe B}}\\
-          },
-        after row={\hline}},  
-      columns/F/.style={
-        column type=l,
-        column name=\textbf{Faktoren},
-        string type},
-      columns/M-A/.style={column type=c,column name=\textbf{M}},
-      columns/SD-A/.style={column type=c,column name=\textbf{SD}},
-      columns/M-B/.style={column type=c,column name=\textbf{M}},
-      columns/SD-B/.style={column type=c,column name=\textbf{SD}},
-      string replace={AA}{Aufgabenangemessenheit},
-      string replace={SB}{Selbstbeschreibungsfähigkeit},
-      string replace={EK}{Erwartungskonformität},
-      string replace={LF}{Lernförderlichkeit},
-      string replace={SK}{Steuerbarkeit},
-      string replace={FT}{Fehlertoleranz},
-      string replace={IK}{Individualisierbarkeit},]
-      {\empiricaldata}
-
-    \caption[Mittelwerte und Standardabweichungen für Gruppen A und B (N=20).]%
-      {Mittelwerte (M) und Standardabweichungen (SD) der Faktoren ermittelt mit Hilfe eines Fragebogens ISONORM 9241/110-S \citep{prumper-2012-isonorm-fragebogen} für Gruppen A und B (N=20).}
-    \label{table:eval}
-  \end{center}
-\end{table}%
-
-% % This is how you would describe the same table directly
-% \begin{table}[ht]
-%   % We want some more white space in this table
-%   % First the column separation
-%   \renewcommand{\tabcolsep}{5mm}
-%   % Then the columns
-%   \renewcommand{\arraystretch}{1.5}
-%   \begin{center}
-%     \begin{tabular}{lrrrr}
-%       & \multicolumn{2}{c}{\textbf{Gruppe A}} & \multicolumn{2}{c}{\textbf{Gruppe B}}\\
-%       \textbf{Faktoren} & \textbf{M} & \textbf{SD} & \textbf{M} & \textbf{SD} \\
-%       \hline
-%       Aufgabenangemessenheit       & 5,33 & 0,69 & 5,00 & 0,48 \\
-%       Selbstbeschreibungsfähigkeit & 3,92 & 0,96 & 6,33 & 0,35 \\
-%       Erwartungskonformität        & 5,88 & 1,10 & 6,10 & 0,56 \\
-%       Lernförderlichkeit           & 4,54 & 1,76 & 4,24 & 1,13 \\
-%       Steuerbarkeit                & 5,75 & 0,92 & 6,90 & 0,67 \\
-%       Fehlertoleranz               & 4,56 & 0,93 & 3,00 & 0,98 \\
-%       Individualisierbarkeit       & 4,61 & 0,72 & 5,86 & 0,82 \\
-%     \end{tabular}
-%     \caption{Mittelwerte (M) und Standardabweichungen (SD) der Faktoren ermittelt mit Hilfe eines Fragebogens ISONORM 9241/110-S \citep{prumper-2012-isonorm-fragebogen} für Gruppen A und B (N=20).}
-%     \label{table:eval}
-%   \end{center}
-% \end{table}%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Zusammenfassung und Ausblick}\label{chapter:conclusions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{kurze Einleitung zu den Unterkapiteln}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Zusammenfassung}\label{sec:conc_summary}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Darstellung dessen, was erreicht wurde (ca. 1 Seite)}
-
-In dieser Arbeit wurde der QA-Wizard entwickelt, ein System zur Unterstützung von Studierenden bei
-der Auswahl geeigneter Dokumentvorlagen für ihre Abschlußarbeiten.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Offene Punkte}\label{sec:conc_open_questions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Darstellung von aufgetretenen Problemen und geplanten, aber noch nicht realisierten Systemeigenschaften}
-
-Im Rahmen der Arbeit konnte die ursprünglich geplante Funktion des automatischen Verfassen einer QA aus Komplexitätsgründen nur ansatzweise realisiert werden. Hier muß die KI-Funktion noch vervollständigt werden.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ausblick}\label{sec:conc_outlook}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Weiterentwicklungsmöglichkeiten der Arbeit}
-
-Die konkreten Verbesserungsvorschläge aus der Evaluation könnten in einem nächsten  Entwicklungsschritt von QA-Wizard eingebracht werden. Außerdem wäre eine Erweiterung des Systems denkbar.
-
+Enter your introduction here. The introduction should provide a brief overview of the topic, the motivation for the work, and the structure of the thesis.\cite{bringhurst-2005-elements_typographic_style}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % list of figures, tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% here we have all the stuff where chapters have no numbers etc.
-% you will find a lot of \cleardoublepage and \phantomsection
-% commands, these help hyperref.sty to find the right targets
-% for hyperlinks
 \backmatter
 
 % The list of figures
-  \cleardoublepage
-  \phantomsection
-%   \addcontentsline{toc}{chapter}{Abbildungen}
-  \listoffigures
+\cleardoublepage
+\phantomsection
+\listoffigures
 
 % The list of tables
-  \cleardoublepage
-  \phantomsection
-%   \addcontentsline{toc}{chapter}{Tabellen}
-  \listoftables
+\cleardoublepage
+\phantomsection
+\listoftables
 
 % list of listings
-  \cleardoublepage
-  \phantomsection
-%   \addcontentsline{toc}{chapter}{Quelltexte}
-  \lstlistoflistings  % generated by listings.sty
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Literatur}
-% \addcontentsline{toc}{chapter}{Quellen}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% While it is possible to cite something without putting
-% in a reference, the question is, why would you do that?
-\nocite{cooper_ea-2014-about_face_4}
-
+\cleardoublepage
 \phantomsection
-\renewcommand{\bibname}{Literatur}
-\bibliographystyle{imai}
+\lstlistoflistings
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{References}\label{sec:references}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\phantomsection
+\renewcommand{\bibname}{References}
+\bibliographystyle{plain}
 \bibliography{bibliography}
-% \addcontentsline{toc}{section}{Literatur}
-
-% \phantomsection
-% \bibliographystyleweb{imai}
-% \bibliographyweb{bibliography}
-% \addcontentsline{toc}{section}{Weblinks}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% documentation of use of generative AI
-\chapter{KI-Nutzung}\label{sec:ai_use}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \begin{tabular}{
-    >{\small\raggedright\arraybackslash}p{0.25\textwidth}
-    >{\small\raggedright\arraybackslash}p{0.25\textwidth}
-    >{\small\raggedright\arraybackslash}p{0.4\textwidth}
-  }
-  \textbf{KI-System}  & \textbf{Verwendung} & \textbf{Beschreibung} \\
-  \textbf{\& Version} & \textbf{(Zweck)}    & \textbf{der Nutzung}  \\
-  \hline
-    Claude 3.7 Sonnet  & 
-    Strukturierung der Arbeit & 
-    Prompt: ``Schlage eine Gliederung für eine Ausarbeitung zum Thema Audio-Codecs vor'' \\
-    GPT-4o (März 2025) &
-    Code-Optimierung & 
-    Überprüfung meines Python-Codes zur Audioanalyse auf Fehler und Optimierungsmöglichkeiten \\
-    Copilot (Version 2025) &
-    Code-Generierung &
-    Assistenz beim Erstellen von SVG-Grafiken für die Darstellung von Frequenzspektren \\
-\end{tabular}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % list of abbreviations, glossaries
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% creating the list of abbreviations and the glossary
-% we just add all entries in the abk and glos files
-% this example illustrates really just the easiest way of
-% doing it, the glossaries.sty package has much more options 
-% to fine-tune the results
-
 \glsaddall
-% \printglossary[type=\acronymtype,title=Abkürzungen,style=imaiabk]
-\printglossary[type=\acronymtype,title=Abkürzungen,style=imaiabk,toctitle=Abkürzungen]
+\printglossary[type=\acronymtype,title=List of Abbreviations,style=imaiabk,toctitle=List of Abbreviations]
 \printglossary[style=imai]
 
-% % If we want to generate an index, this should be it
-%   \cleardoublepage
-%   \phantomsection
-% %   \addcontentsline{toc}{chapter}{Citation Index} % only used for non-KOMA classes
-%   \sloppy
-%   \printindex
-%   \fussy
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% we now go into the appendix. basically the appendix is one chapter
-% with some sections below. The appendix chapter has no mark, the
-% sections alphabetical ones, subsections will have numerical ones
-% TODO format lower level sections in appendix
 \renewcommand{\thechapter}{\Alph{chapter}}
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
-\setcounter{section}{0} % need to be explicit, since they are not reset in back matter
-\addtocounter{chapter}{1} % help hyperref find the correct section
+\setcounter{section}{0}
+\addtocounter{chapter}{1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Appendices}\label{chapter:appendix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Anhänge}\label{chapter:appendix}
-% \addcontentsline{toc}{chapter}{Anhänge}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Umfangreiche zusätzliche Informationen, die im Textverlauf stören würden, die aber für 
-  die Arbeit wichtig sind, wie z.B. Programmcode, Fragebögen, Evaluationstabellen
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programmcode}\label{sec:appendix_code}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{
-  Es geht hier nicht darum, den kompletten Quelltext des praktischen Teils der Arbeit abzudrucken
-  
-  Es sollen lediglich besonders wichtige Fragmente (API-Definitionen, Kommunikationsprotokolle) dokumentiert werden
-  }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section{Evaluationsergebnisse}\label{sec:appendix_eval}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\imaicomment{Detaillierte Ergebnisse und, falls überschaubar, auch die Rohdaten}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section{Installationsanweisung}\label{sec:appendix_install}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-\imaicomment{Vom auschecken aus der Versionsverwaltung bis zur Installation auf dem Zielsystem}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter*{Erklärung über das selbständige Verfassen}\addcontentsline{toc}{chapter}{Erklärung}
+\chapter*{Declaration of Independent Work}\addcontentsline{toc}{chapter}{Declaration}
 \thispagestyle{empty}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% you did it:) now the only thing left is to sign and deliver it
-
-% FIXME Type of thesis?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%
   {
-    Ich versichere hiermit, daß ich die vorstehende
-%     Masterarbeit
-    Bachelorarbeit
-    selbständig verfaßt und keine anderen als die angegebenen Hilfsmittel
-    benutzt habe. Die Stellen der Arbeit, die anderen Werken dem Wortlaut
-    oder dem Sinn nach entnommen wurden, habe ich in jedem einzelnen Fall
-    durch die Angabe der Quelle bzw. der Herkunft, auch der benutzten
-    Sekundärliteratur, als Entlehnung kenntlich gemacht. Dies gilt auch für
-    Zeichnungen, Skizzen, bildliche Darstellungen sowie für Quellen aus dem 
-    Internet und anderen elektronischen Text- und Datensammlungen und
-    dergleichen. Die eingereichte Arbeit ist nicht anderweitig als
-    Prüfungsleistung verwendet worden oder in deutscher oder in einer anderen 
-    Sprache als Veröffentlichung erschienen. Mir ist bewußt, daß
-    wahrheitswidrige Angaben als Täuschung behandelt werden.
+    I hereby declare that I have written the above Master's thesis independently
+    and have not used any aids other than those specified. I have indicated the 
+    source or origin, including secondary literature, of all passages in the thesis 
+    that are taken in spirit or content from other works. This also applies to 
+    drawings, sketches, pictorial representations, and sources from the Internet 
+    and other electronic text and data collections. The submitted work has not 
+    been used for any other examination or published in German or any other 
+    language. I am aware that untrue statements will be treated as fraud.
   }
 
 
 \vspace*{4cm}
 
-% FIXME your real name, sign here - do not add the student number
-Vorname Zuname
+Marcel Nöhre
 
 \vspace*{1cm}
 
 Hildesheim, \today
 
 \end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

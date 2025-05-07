@@ -34,81 +34,6 @@
 % 
 % LICENSE INFORMATION ENDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% You should be able to use this file as it is, parts where
-% you have to change things or decide on options are marked
-% with comments like this:
-% FIXME Example: change something here
-%
-% This file should only need packages available in a
-% standard TeXlive install. Input encoding is UTF 8, please
-% make sure your editor gets that right. We use pdfLaTeX
-% and produce PDF directly, we do not go via DVI.
-%
-% Happy TeXing:)
-%
-% Please direct comments, feedback, patches to:
-% 
-%            cassens@cs.uni-hildesheim.de (jc)
-% 
-% gitlab-project at:
-% 
-%   https://www.uni-hildesheim.de/gitlab/mi/imaithesis
-% 
-%
-% ChangeLog
-% 2010-09-23  project started for imis at uni of lübeck (jc)
-% 2010-09-29  initial release (jc)
-% 2010-09-30  bugfix imis.bst (jc)
-% 2010-10-08  hacks for listings added (jc)
-% 2010-11-16  changed titlepage as in new word template (jc)
-% 2011-02-02  experimental workaround listings in german (jc)
-% 2011-06-17  changed way of referencing weblinks (jc)
-% 2011-07-29  removed broken package ltablex and use plain
-%             tabularx. Beware: tabularx does not support
-%             tables over several pages (thanks Niels for bug
-%             report & Bjoern for debugging) (jc)
-% 2011-12-22  changed Betreuer to Wissenschaftliche Begleitung
-%             added some color to the listings (jc)
-% 2012-03-08  major rework of content (mostly) and style to
-%             reflect newest, reworked version of Word template
-%             with a lot of new text to help you get going (jc)
-% 2012-03-09  reworked listings and captions massively
-%             now we rely on ccaptions.sty for a new 
-%             imislistings float environment (jc)
-% 2012-03-15  graphs and tables from data (jc)
-% 2012-04-02  new title page, small changes to glossaries (jc)
-% 2012-04-18  fixed small bug in Makefile resulting in a
-%             wrong zipfile for publication - devel only (jc)
-% 2012-11-09  hex color definitions to uppercase because some
-%             installs seem to bark else - thanks Marcin (jc)
-% 2012-12-07  Incorporated changes to support project reports
-%             as well as theses, use a boolean to switch (jc)
-% 2013-06-26  Initial import of project for use in Hildesheim (jc)
-% 2013-07-31  Many simplifications, since we do not have to mimic
-%             a given style we rely much more on the features of
-%             TeX and use less packages
-%             Content and form is adapted to what I think would
-%             be a good starting point for theses in Hildesheim (jc)
-% 2015-10-21  Small adjustments to formatting, preparing to 
-%             use uni-gitlab for future development, addded scrhack
-%             to make koma work better with listings.sty (jc)
-% 2015-12-05  Refactoring to support a seminar template (jc)
-% 2016-04-28  Clarified Copyright status and conditions of use (jc)
-% 2016-05-05  make imaithesis work with XeLaTeX (jc)
-% 2020-11-07  move from IMAI to IfI (jc)
-% 2021-02-02  replaced required style scrpage2 which is now
-%             obsolete with scrlayer-scrpage, stop-gap measure (jc)
-% 2023-05-16  added stuff to mark generative AI (jc)
-% 2023-05-19  minor formatting simplifications (jc)
-% 2023-05-25  license clarified (jc)
-% 2025-04-17  amended information on generative AI (jc)
-% 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% this makes ``References'' a section instead of a chapter
-% this has to be done before other packages mess around
-% with the definition
 \makeatletter
 \renewcommand*\bib@heading{%
   \section*{\bibname}%
@@ -117,57 +42,15 @@
 \makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Now we can start to load the packages needed
+% General packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%% General      %%%%%%%%%%
-% koma comes with more advanced handling of tocs, scrhack
-% makes other packages like listings work with that
-% TODO this might cause problems with updated packages
 \usepackage{scrhack}
-% we want to support both pdfLaTeX and XeLaTeX
-% TODO consider luaTeX as well
 \usepackage{iftex}
-% language settings, output-encoding
-% localisation (languages set in document directive):
 \usepackage{babel}
-% % TODO context sensitive quotes, investigate for biblatex
-% \usepackage{csquotes}
-% output encoding:
-% \usepackage[T1]{fontenc}
 
-%%%%%%%%%% Fonts        %%%%%%%%%%
-% TODO validate font choice
-% We mainly use clones or derivatives of the Palatino-font
-% by Herman Zapf and the Source Pro family of fonts designed
-% by Paul D. Hunt.
-% All these fonts can be classified as ``dynamic humanist fonts''
-% according to Kupferschmid and Willberg.
-% 
-% If we are using XeLaTeX or luaLaTeX:
-% We use a Palatino-clone called TeX Gyre Pagella for most of
-% the text, Source Sans Pr for sans-serif and Source Code Pro
-% and monospace. The OpenType/TrueType versions of the fonts 
-% need to be installed on your computer to use this template.
-% On linux-systems, they are usually available through the 
-% package  manager (zypper, yum, apt-get). If this is not the
-% case or if you use a different operating system such as MacOS
-%  or Windows, you might need to  download the fonts manually:
-% FIXME install fonts for XeLaTeX and luaLaTeX
-% http://www.gust.org.pl/projects/e-foundry/tex-gyre/pagella
-% http://www.gust.org.pl/projects/e-foundry/tg-math
-% https://github.com/adobe-fonts/source-sans
-% https://github.com/adobe-fonts/source-code-pro
-% 
-% If we are using pdfLaTeX:
-% We use a Palatino-clone called TeX Gyre Pagella for most of
-% the text, Source Sans Pr for sans-serif and Source Code Pro
-% and monospace. All fonts and their support packages should
-% be available on any standard TeX distribution.
-% 
-% we use alwasy UTF-8 input
-% Font loading is quite different for pdfLaTeX and XeLaTeX
-%   \usepackage{amsmath}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \ifXeTeX
     % XeLaTeX (system fonts via fontspec)
     \usepackage{fontspec}
@@ -198,53 +81,36 @@
     \usepackage{sourcesanspro}
   \fi\fi
 
-%%%%%%%%%% Look & Feel  %%%%%%%%%%
-% nicer headings/footer:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Look & Feel
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{scrlayer-scrpage}
-% typeset URLs nicely:
 \usepackage{url}
-% extended table environment:
 \usepackage{tabularx}
-% % colours in tables:
-% \usepackage{colortbl}
-% % booktabs for nice looking tables
-% \usepackage{booktabs}
-% used for adapting list environment, e.g. for glossaries:
 \usepackage{enumitem}
 \usepackage{pifont}
-% include source code listings in the text:
 \usepackage{listings}
 
-%%%%%%%%%% Graphics     %%%%%%%%%%
-% we need to be able to include graphics:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
-% we use colours in tables etc.:
 \usepackage[dvipsnames,usenames]{xcolor}
-% TikZ is cool for diagrams:
 \usepackage{tikz}
-% these 2 packages can be used to generate
-% graphs & tables from tabular data:
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
-% pinning to specific pgfplots version
-% \pgfplotsset{compat=1.8}
 \pgfplotsset{compat=1.15}
-% make text flow around images
-% \usepackage{picins}
 
-%%%%%%%%%% Bib          %%%%%%%%%%
-% allows us to use author-year styles:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bib
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{natbib}
-% % allows to have a separate bibliography for weblinks (or more):
-% \usepackage{multibib} % will be removed in the future
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% colour definitions
+% Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This colour is used to typeset some info text:
 \definecolor{lightgray}{gray}{.5}
-
-% These colours from the Tango project fit well together:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{tango_orange_dark}      {HTML}{CE5C00}
 \definecolor{tango_orange_medium}    {HTML}{F57900}
 \definecolor{tango_orange_light}     {HTML}{FCAF3E}
@@ -269,137 +135,56 @@
 \definecolor{tango_aluminimum_4}     {HTML}{888A85}
 \definecolor{tango_aluminimum_5}     {HTML}{555753}
 \definecolor{tango_aluminimum_6}     {HTML}{2E3436}
-% See http://tango.freedesktop.org/
-
-% These are the colours for the University of Hildesheim:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{unihi_red}   {HTML}{D7001C} % Uni 
 \definecolor{unihi_ruby}  {HTML}{B4152B} % FB I
 \definecolor{unihi_orange}{HTML}{EC870E} % FB II
 \definecolor{unihi_blue}  {HTML}{0186BC} % FB III
 \definecolor{unihi_green} {HTML}{467A40} % FB IV
 
-%%%%%%%%%% Other        %%%%%%%%%%
-% % is already loaded automatically:
-% \usepackage{calc}
-% % do we want an index?
-% \usepackage{makeidx}
-
-
-% include hyperlinks in PDF and much more:
-% FIXME Chose between coloured or black
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[
   colorlinks=true,
-% %   Chose these ``colours'' for grayscale print
-%   linkcolor=black,
-%   menucolor=black,
-%   citecolor=black,
-%   urlcolor=black,
-% %   Previous deault colours, chose if preferred
-%   linkcolor=red!40!black,
-%   menucolor=red!40!black,
-%   citecolor=blue!50!black,
-%   urlcolor=green!40!black,
-% % Current default colours
   linkcolor=tango_chocolate_dark,
   menucolor=tango_chocolate_dark,
   citecolor=tango_skyblue_dark,
   urlcolor=tango_plum_dark,
 ]{hyperref}
-
-% Now all packages are loaded and we can start to modify
-% the look and feel.
-
-% TODO recalc typearea
-% % letting typearea recalc the layout with all packages loaded
 \recalctypearea
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Set up header and footer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \pagestyle{scrheadings}
 \clearpairofpagestyles
 \renewcommand{\headfont}{\normalfont\rmfamily\itshape}
 \ohead{\headmark}
 \ofoot[\pagemark]{\pagemark}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   lists of... and captions
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% for listings, we define the names used in the captions
-% and in the list of listings
-% we also take the -verzeichnis out of the list of
-% figures and list of tables
-% TODO differences in defined languages/babel; Text formating
-\AtBeginDocument{%
-  \makeatletter
-    \addto\captionsngerman{%
-      \def\lstlistingname{Quelltext}%
-      \def\lstlistlistingname{Quelltexte}%
-%       \renewcommand{\listfigurename}{\normalfont\rmfamily Abbildungen}%
-%       \renewcommand{\listtablename}{\normalfont\rmfamily Tabellen}%
-      \renewcommand{\listfigurename}{Abbildungen}%
-      \renewcommand{\listtablename}{Tabellen}%
-    }%
-  \makeatother
-}
-% % for other than KOMA classes, the following may have
-% % to be used instead:
-% \renewcommand*{\lstlistlistingname}{Quelltexte}
-% \renewcommand*{\lstlistingname}{Quelltexte}
-
-% captions should be set in a small font size
-\addtokomafont{caption}{\footnotesize}
-% \addtokomafont{captionlabel}{\bfseries}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   General changes to formatting
+% General changes to formatting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% First some basic styling for listings
-% FIXME you will probably not use SPARQL
 \lstset{
   keywordstyle=\color{red!40!black},
   commentstyle=\itshape\color{green!40!black},
   stringstyle=\color{blue!50!black},
   basicstyle=\ttfamily,
   frame=single,
-%   language=xml,
   language=sparql,
   captionpos=b,
   nolol=false
-  }
+}
 
-% this is the KOMA-way of changing titles.
+\addtokomafont{caption}{\footnotesize}
 \setkomafont{sectioning}{\rmfamily\bfseries}
-  
-% we want an url to be printed in the standard font
 \urlstyle{same}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set up citation styles
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Deprecated: we will not make use of multibib styles
-% % we use multibib.sty to generate a weblinks bibliography,
-% % define more as you see fit (Software, RFCs, Images)
-% \newcites{web}{Weblinks}
-% % FIXME If you use several bibliographies, you need to run
-% % all of them through bibTeX. This can be achieved with the
-% % following script (for Unix, Mac, and Linux):
-% #!/bin/bash
-% for file in *.aux ; do
-%   bibtex `basename $file .aux`
-% done
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % float control
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% more sensible defaults for how much space floats can take
-% up on pages with text:
-% http://www.tug.org/texmf-dist/doc/generic/FAQ-en/html/FAQ-floats.html
 \setcounter{topnumber}{2}
 \setcounter{bottomnumber}{9}
 \setcounter{totalnumber}{20}
@@ -414,25 +199,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % some commands necessary for the template
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% the \imaicomment command outputs some hints about what to
-% write about in the different parts of the thesis,
-% you should either delete them all or redefine this
-% command to an empty one for the final version.
-%
-% This command can be quite useful to capture comments and
-% questions you want to deal with later.
-% \newcommand{\imaicomment}[1]{{\itshape\color{lightgray} #1}}
 \newcommand{\imaicomment}[1]{{\itshape\color{tango_aluminimum_4} #1}}
-
-% The next two commands allow you to easily 
 \newcommand{\migenaiverb}[1]{{\color{tango_orange_dark} #1}}
 \newcommand{\migenaimod}[1]{{\color{tango_chameleon_dark} #1}}
 \newcommand{\migenaiused}{{\color{tango_chameleon_dark}\raisebox{.125ex}{\scalebox{0.8}{\ding{70}}}\hspace{-0.2em}\raisebox{.8ex}{\scalebox{0.5}{\ding{70}}}\hspace{-0.4em}\raisebox{-0.1ex}{\scalebox{0.5}{\ding{70}}}}}
-
-
-% experimental support for longer text in teletype-style
-% (\texttt{}) with added linebreaks and hyphenation
-% adapted from http://tex.stackexchange.com/questions/299/how-to-get-long-texttt-sections-to-break
 \newcommand*{\imaitexttt}[1]{\texttt{%
     \fontdimen2\font=0.4em% interword space
     \fontdimen3\font=0.2em% interword stretch
@@ -440,16 +210,3 @@
     \fontdimen7\font=0.1em% extra space
     \hyphenchar\font=`\-% allowing hyphenation
     #1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% some options for debugging
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \usepackage{showframe}
-% \usepackage[sfdefault]{classico}
-% \usepackage{lineno}
-% \usepackage{lipsum}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% now that setup is complete, we continue in the main files
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

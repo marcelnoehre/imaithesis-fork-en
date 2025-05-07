@@ -1,0 +1,367 @@
+\documentclass[12pt,        % standard font size
+  english,ngerman,          % german primary, english secondary
+  paper=a4,                 % standard paper size
+  captions=tablesignature,  % captions below tables
+  listof=numbered,          % including lists of... in the ToC
+  bibliography=totoc,       % references in ToC
+  headings=small,           % size of headings
+  headinclude=false,        % don't include page head in page layout
+  footinclude=false,        % don't include page foot in page layout
+  parskip=half-,            % space between paragraphs, no indentation
+%   dotlessnumbers,         % no dots after chapter etc. numbers
+% FIXME Adjust following 2 options for two-sided print, nr of pages
+  oneside,                  % one-sided print
+%   twoside,                % two-sided print
+% FIXME Adjust the Binding CORrection to the binding and number of pages
+% 5mm should be fine for project and seminar reports with between
+% 30 and 60 pages when using plastic folders (Schnellhefter)
+% For more information see the documentation for KOMA-classes
+%   BCOR=15mm,                 % BCOR for thesis (hardcover)
+%   BCOR=5mm,                 % BCOR for projetan reports (plastic folder)
+%                             % No BCOR for seminar reports (plastic folder)
+%   draft,                  % speed things up before final version
+%   DIV=calc                % calculate the page layout
+  DIV=12                    %  
+%   DIV=classic                    %  
+  ]{scrartcl}                % KOMA script book class
+% TODO font size 11 or 10, div?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright 2013-2023 by Jörg Cassens <cassens@cs.uni-hildesheim.de>
+%       and      2013 by Amelie Roenspieß (part of the example texts only)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LICENSE INFORMATION BEGINS
+% 
+% This is a sample LaTeX document intended for deliverables in media 
+% informatics at the Institute for Computer Science, University of 
+% Hildesheim, Germany. The purpose of this file is to serve as a 
+% customizable template to suit your specific requirements.
+% 
+% As a user, you are granted the following permissions:
+% 
+% a) If you choose to use this file as a template (after removing
+% the provided example texts), you are permitted to freely copy
+% and modify it according to your needs, including the option to
+% delete this copyright notice.
+% 
+% b) If you wish to modify this file and distribute it as a template, 
+% you are granted permission to freely copy and modify it according 
+% to your needs, including changing the example texts provided.
+% 
+% c) You may also distribute the unchanged file.
+% 
+% Please be aware that this collection of files contains logos
+% of the University of Hildesheim. It is your responsibility
+% to ensure that you have the necessary rights to use these logos. 
+% If you intend to distribute the files outside the University of
+% Hildesheim, you must remove the logos.
+% 
+% LICENSE INFORMATION ENDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Adapt it where you see fit - you don't have to follow all
+% idiosyncrasies of the default style, but are free to use
+% typographically sane variations.
+%
+% You should be able to use it as it is, parts where you
+% have to change things or decide on options are marked
+% with comments like this:
+% FIXME Example: change something here
+%
+% This template should only need packages available in a
+% standard TeXlive install. Input encoding is UTF 8, please
+% make sure your editor gets that right. We use pdfLaTeX
+% and produce PDF directly, we do not go via DVI.
+%
+% Happy TeXing:)
+%
+% Please direct comments, feedback, patches to:
+% 
+%            cassens@cs.uni-hildesheim.de (jc)
+% 
+% gitlab-project at:
+% 
+%   https://www.uni-hildesheim.de/gitlab/cassensj/mithesis
+% 
+%
+% ChangeLog
+% 2010-09-23  project started for imis at uni of lübeck (jc)
+% 2010-09-29  initial release (jc)
+% 2010-09-30  bugfix imis.bst (jc)
+% 2010-10-08  hacks for listings added (jc)
+% 2010-11-16  changed titlepage as in new word template (jc)
+% 2011-02-02  experimental workaround listings in german (jc)
+% 2011-06-17  changed way of referencing weblinks (jc)
+% 2011-07-29  removed broken package ltablex and use plain
+%             tabularx. Beware: tabularx does not support
+%             tables over several pages (thanks Niels for bug
+%             report & Bjoern for debugging) (jc)
+% 2011-12-22  changed Betreuer to Wissenschaftliche Begleitung
+%             added some color to the listings (jc)
+% 2012-03-08  major rework of content (mostly) and style to
+%             reflect newest, reworked version of Word template
+%             with a lot of new text to help you get going (jc)
+% 2012-03-09  reworked listings and captions massively
+%             now we rely on ccaptions.sty for a new 
+%             imislistings float environment (jc)
+% 2012-03-15  graphs and tables from data (jc)
+% 2012-04-02  new title page, small changes to glossaries (jc)
+% 2012-04-18  fixed small bug in Makefile resulting in a
+%             wrong zipfile for publication - devel only (jc)
+% 2012-11-09  hex color definitions to uppercase because some
+%             installs seem to bark else - thanks Marcin (jc)
+% 2012-12-07  Incorporated changes to support project reports
+%             as well as theses, use a boolean to switch (jc)
+% 2013-06-26  Initial import of project for use in Hildesheim (jc)
+% 2013-07-31  Many simplifications, since we do not have to mimic
+%             a given style we rely much more on the features of
+%             TeX and use less packages
+%             Content and form is adapted to what I think would
+%             be a good starting point for theses in Hildesheim (jc)
+% 2015-10-21  Small adjustments to formatting, preparing to 
+%             use uni-gitlab for future development, addded scrhack
+%             to make koma work better with listings.sty (jc)
+% 2015-12-05  Refactoring to support a seminar template (jc)
+% 2016-04-18  Changed font size to 12 to make it comparable to
+%             new Microsoft Word template. The same number of
+%             pages should have about the same number of characters.
+%             However, this change makes the LaTeX-version look
+%             less crisp. (jc)
+% 2016-04-28  Clarified Copyright status and conditions of use (jc)
+% 2017-03-28  Added example for citations with page numbers (jc)
+% 2017-03-29  Moved hypersetup from setup.tex to seminar.tex (jc) 
+% 2020-08-24  Initial version of essay.tex (jc)
+% 2020-11-07  move from IMAI to IfI (jc)
+% 2021-05-01  changes to logos (jc)
+% 2023-05-25  license and use of generative AI clarified (jc)
+% 2025-04-17  amended information on generative AI, removed the 
+%             secondary web sources bibliography, fixed some warnings
+%             caused by using deprecated commands (jc)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% most setup is done in a file of its own since it is shared
+% by thesis and seminar
+\input{setup.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% let the fun begin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% % the cite commands will generate entries in the index, if used
+% \citeindextrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% We don't use a custom \maketitle for now
+% so we have to make our own title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+\setcounter{page}{0}
+% FIXME Title, author and subject for PDF metadata
+  \hypersetup{%
+    pdftitle={media informatics essay template},
+    pdfauthor={Jörg Cassens},
+    pdfsubject={Template, examples and explanations for media informatics essays and homework assignments.}
+  }%
+  \begin{center}
+    \includegraphics[width=2.5cm]{figures/unihi-logo.pdf}\\
+%     \includegraphics[width=5cm]{figures/unihi-ifi-logo-en.pdf}\\
+%     \includegraphics[width=5cm]{figures/unihi-ifi-logo-de.pdf}\\
+
+    \vfill
+
+    {
+      \Large
+      \bfseries
+%     FIXME your real title in German
+      Titel der Arbeit\\    
+      Titel Zeile 2
+      
+      \vspace{0.25cm}
+      \normalsize
+      \mdseries
+%     FIXME your real title in English
+      \selectlanguage{english} % switching to english
+        Title of the Thesis in English\\
+        Second Line English Title
+      \selectlanguage{ngerman}
+    }
+
+    \vfill
+
+    {
+      \normalsize
+
+%     FIXME your type of thesis
+      Essay
+
+%     FIXME Chose your study program:
+      im Rahmen des Studiengangs\\
+      Informationsmanagement und Informationstechnologie\\
+%     Wirtschaftsinformatik\\    
+      der Universität Hildesheim
+
+      \vfill
+
+%     FIXME your real name - do not add the student number
+      Vorgelegt von\\
+      Vor- und Zuname des/der Studierenden
+
+      \vfill
+
+      Prüfer\\
+      Dr. Jörg Cassens
+  
+      \vfill
+      
+%     FIXME real date of delivery
+      Hildesheim, \today
+    }
+      
+      \vfill
+      
+    {
+      \footnotesize 
+
+      \vfill
+
+      Fachbereich IV -- Mathematik, Naturwissenschaften, Wirtschaft und Informatik\\      
+      Institut für Informatik
+    }
+  \end{center}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Das Wissenschaftliche Essay}\label{section:essay}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\imaicomment{
+  Dieser Abschnitt beschreibt die Grundzüge eines Essays
+  
+  Anders als in den anderen Vorlagen sind in der Vorlage keine strukturierenden Abschnitte eingebaut da die Struktur stark vom Kontext der Erstellung abhängt
+  
+  Eine Auflistung möglicher Abschnitte findet sich im Fließtext weiter unten
+  }
+
+
+Ein wissenschaftlicher Aufsatz ist ein schriftliches akademisches oder wissenschaftliches Werk, das ein spezifisches wissenschaftliches Thema oder eine Forschungsfrage in einer strukturierten und systematischen Weise präsentiert und diskutiert. Er wird in der Regel von Wissenschaftler\_Innen, Forschenden oder Studierenden in wissenschaftlichen Disziplinen verfasst und zielt darauf ab, die Ergebnisse, Theorien, Methoden und Implikationen wissenschaftlicher Untersuchungen zu vermitteln.
+
+Ein wissenschaftlicher Aufsatz folgt in der Regel einem standardisierten Format, obwohl Variationen je nach spezifischem Fachgebiet oder anderen Kontextfaktoren auftreten können. Er beginnt in der Regel mit einer Einleitung, die Hintergrundinformationen und Kontext zum Forschungsthema liefert sowie eine klare Formulierung der untersuchten Forschungsfrage oder Hypothese enthält. Der Hauptteil des Aufsatzes besteht aus Abschnitten wie Methodik, Literaturübersicht, Theorie, Praxis, Ergebnissen und Diskussion, die einen umfassenden Überblick über den Forschungsprozess und die Ergebnisse bieten. Der Abschnitt zur Methodik beschreibt den experimentellen oder analytischen Ansatz, während die Literaturübersicht eine kritische Analyse früherer Studien zum Thema liefert. Der Abschnitt zur Theorie kann zusätzliche grundlegende Hintergrundinformationen liefern, während der Praxis-Abschnitt oft entwickelte Systeme, Prozesse oder Methoden einführt. Der Ergebnisabschnitt präsentiert die aus der Forschung gewonnenen Daten oder Nachweise, häufig mithilfe von Tabellen, Grafiken oder Abbildungen. Die Diskussion interpretiert und analysiert die Ergebnisse, identifiziert Muster oder Trends und liefert Erklärungen oder Einsichten. Der Aufsatz kann mit einer Zusammenfassung der wichtigsten Erkenntnisse, Implikationen, Einschränkungen und Vorschlägen für zukünftige Forschung abschließen.
+
+Die Struktur eines wissenschaftlichen Aufsatzes kann jedoch erheblich von diesem Standard abweichen, insbesondere bei kurzen Beiträgen zu bestimmten Themen. Wissenschaftliche Aufsätze können auch Meinungsbeiträgen ähneln und einen großen Teil der kritischen Bewertung von Theorien oder Methoden und deren Auswirkungen auf die Gesellschaft widmen. Sie müssen jedoch weiterhin wissenschaftlichen Standards entsprechen.
+
+Ein wissenschaftlicher Aufsatz erfordert einen klaren und prägnanten Schreibstil, der durch logisches Denken und Belege gestützt wird. Er sollte sich an die Prinzipien wissenschaftlicher Untersuchungen wie Objektivität, Genauigkeit und Reproduzierbarkeit halten. Darüber hinaus enthalten wissenschaftliche Aufsätze oft Zitate und Literaturverweise, um vorhandenes wissenschaftliches Wissen anzuerkennen und darauf aufzubauen. Dadurch wird Glaubwürdigkeit verliehen und die vorgebrachten Argumente und Schlussfolgerungen werden unterstützt. Insgesamt dient ein wissenschaftlicher Aufsatz als Mittel zur Weitergabe wissenschaftlichen Wissens, zur Förderung wissenschaftlicher Diskurse und zur Beitrag zur Weiterentwicklung eines bestimmten Fachgebiets \citep{redman_maples-2017-good_essay_writing}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generative KI}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\imaicomment{
+  Richtlinien für den Einsatz generativer KI
+  
+  Dieses Unterkapitel wird in der Regel nicht Teil der Arbeit sein
+  }
+  
+Im Rahmen der Lehre in der Medieninformatik ist die Nutzung generativer KI-Systeme \textit{ausdrücklich erlaubt}, sofern sie verantwortungsvoll eingesetzt und transparent dokumentiert wird. Diese Richtlinien sollen Ihnen helfen, generative KI als Werkzeug im wissenschaftlichen Arbeitsprozess sinnvoll einzusetzen und gleichzeitig akademische Integrität zu wahren. Die Grundprinzipien dabei sind:
+    
+\begin{itemize}
+  \item Sie tragen die volle \textit{wissenschaftliche Verantwortung} für alle in Ihren Ausarbeitungen und Präsentationen enthaltenen Inhalte, auch wenn sie mit Unterstützung von KI-Systemen erstellt wurden.
+  \item Generative KI kann Fakten erfinden (halluzinieren), Verzerrungen (Bias) verstärken und sachlich falsch sein. \textit{Überprüfen Sie daher alle durch KI generierten Inhalte kritisch}.    
+  \item KI-Tools sind \textit{keine zitierfähigen Quellen}. Wenn Sie mit KI recherchieren, müssen Sie stets die ursprünglichen wissenschaftlichen Quellen identifizieren, selber aufbereiten und korrekt zitieren.
+  \item Die KI-Nutzung sollte als \textit{Unterstützung des eigenen Denkprozesses} verstanden werden, nicht als Ersatz.
+\end{itemize}
+
+Genutzte generative KI-Systeme \textbf{müssen} am Ende einer jeden schriftlichen Arbeit aufgelistet werden. Mindestens die verwendeten Systeme und ihre Version sind darzulegen. Diese Auflistung kann im besonderen durch die eine tabellarische Dokumentation geschehen, wie im Beispiel auf Seite \pageref{sec:ai_use} gezeigt.
+
+ 
+Darüber hinaus \textbf{können} Sie eine farbliche Kennzeichnung im Text benutzen:
+  
+\migenaimod{%
+    Diese Farbe kennzeichnet Textabschnitte, bei denen Ausgaben einer generativen KI (wie zum Beispiel GPT) verwendet und erheblich verändert und zu eigenen gemacht wurden. Dies umfasst kritische Textanalyse, Hinzufügen eigener Gedanken, Paraphrasierung und substanzielle Überarbeitung. Diese Kennzeichnung gilt auch, wenn eine generative KI einen selbst formulierten Text maßgeblich überarbeitet hat.%
+  }
+
+\migenaiverb{%
+    Diese Farbe kennzeichnet Textabschnitte, in denen Ausgaben einer generativen KI übernommen und nicht substantiell überarbeitet wurden.%
+  }
+  
+\textit{Nicht gekennzeichnet} wird die Verwendung von KI-Tools für das Copy-Editing. Unter Copy-Editing verstehen wir KI-unterstützte Verbesserungen an menschlich erstellten Texten für Lesbarkeit und Stil sowie zur Korrektur von Fehlern in Grammatik, Rechtschreibung, Zeichensetzung und Tonfall. Diese KI-unterstützten Verbesserungen können Formulierungs- und Formatierungsänderungen umfassen, beinhalten jedoch keine eigenständige redaktionelle Arbeit oder autonome Inhaltserstellung.
+
+Ebenso muss die Verwendung von Übersetzungsdiensten nicht offengelegt werden.
+  
+\textit{Wichtig:} Bei allen KI-unterstützten Arbeiten bleibt die menschliche Verantwortung für den finalen Text bestehen. Die Studierenden müssen sicherstellen, dass die Inhalte korrekt sind und ihre ursprüngliche Arbeit angemessen widerspiegeln.
+    
+\textit{Die KI-Nutzung selbst wird nicht bewertet}, sondern nur die Qualität der wissenschaftlichen Arbeit und die transparente Dokumentation der Nutzung. Die fehlende Offenlegung der KI-Nutzung kann jedoch als Täuschungsversuch gewertet werden.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% While it is possible to cite something without putting
+% in a reference, the question is, why would you do that?
+\nocite{cooper_ea-2014-about_face_4}
+
+\phantomsection
+\bibliographystyle{imai}
+\bibliography{bibliography}
+% \addcontentsline{toc}{section}{Literatur}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% documentation of use of generative AI
+\bigskip\label{sec:ai_use}
+
+  \begin{tabular}{
+    >{\small\raggedright\arraybackslash}p{0.25\textwidth}
+    >{\small\raggedright\arraybackslash}p{0.25\textwidth}
+    >{\small\raggedright\arraybackslash}p{0.4\textwidth}
+  }
+  \textbf{KI-System}  & \textbf{Verwendung} & \textbf{Beschreibung} \\
+  \textbf{\& Version} & \textbf{(Zweck)}    & \textbf{der Nutzung}  \\
+  \hline
+    Claude 3.7 Sonnet  & 
+    Strukturierung der Arbeit & 
+    Prompt: ``Schlage eine Gliederung für eine Ausarbeitung zum Thema Audio-Codecs vor'' \\
+    GPT-4o (März 2025) &
+    Code-Optimierung & 
+    Überprüfung meines Python-Codes zur Audioanalyse auf Fehler und Optimierungsmöglichkeiten \\
+    Copilot (Version 2025) &
+    Code-Generierung &
+    Assistenz beim Erstellen von SVG-Grafiken für die Darstellung von Frequenzspektren \\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Erklärung über das selbständige Verfassen}\addcontentsline{toc}{chapter}{Erklärung}
+\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% you did it:) now the only thing left is to sign and deliver it
+
+  {
+    Ich versichere hiermit, daß ich die vorstehende Seminararbeit
+    selbständig verfaßt und keine anderen als die angegebenen Hilfsmittel
+    benutzt habe. Die Stellen der Arbeit, die anderen Werken dem Wortlaut
+    oder dem Sinn nach entnommen wurden, habe ich in jedem einzelnen Fall
+    durch die Angabe der Quelle bzw. der Herkunft, auch der benutzten
+    Sekundärliteratur, als Entlehnung kenntlich gemacht. Dies gilt auch für
+    Zeichnungen, Skizzen, bildliche Darstellungen sowie für Quellen aus dem 
+    Internet und anderen elektronischen Text- und Datensammlungen und
+    dergleichen. Die eingereichte Arbeit ist nicht anderweitig als
+    Prüfungsleistung verwendet worden oder in deutscher oder in einer anderen 
+    Sprache als Veröffentlichung erschienen. Mir ist bewußt, daß
+    wahrheitswidrige Angaben als Täuschung behandelt werden.
+  }
+
+
+\vspace*{4cm}
+
+% FIXME your real name, sign here - do not add the student number
+Vorname Zuname
+
+\vspace*{1cm}
+
+Hildesheim, \today
+
+\end{document}
